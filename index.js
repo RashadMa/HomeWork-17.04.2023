@@ -26,7 +26,7 @@ switch (answer) {
     GetNotCompletedTodos();
     break;
   case 3:
-    CompleteTodo();
+    PatchTodo();
     break;
   case 4:
     PostTodo();
@@ -92,6 +92,26 @@ async function DeleteTodo() {
   let id = readline.question("Id: ");
   let response = await fetch(url + "/" + id, {
     method: "DELETE",
+  });
+  let data = await response.json();
+  console.log(data, "data");
+}
+
+//#endregion
+
+//#region Patch Todo
+
+async function PatchTodo() {
+  let id = readline.question("Id: ");
+  let isCompleted = readline.question("Is Completed: ");
+  let response = await fetch(url + "/" + id, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      completed: (isCompleted = false),
+    }),
   });
   let data = await response.json();
   console.log(data, "data");
