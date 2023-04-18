@@ -14,31 +14,36 @@ const options = [
 
 //#endregion
 
-//#region Switch Function
+Main();
 
-let answer = readline.keyInSelect(options);
-answer++;
-switch (answer) {
-  case 1:
-    GetTodos();
-    break;
-  case 2:
-    GetNotCompletedTodos();
-    break;
-  case 3:
-    PatchTodo();
-    break;
-  case 4:
-    PostTodo();
-    break;
-  case 5:
-    DeleteTodo();
-    break;
-  case 0:
-    break;
-  default:
-    console.log("Select proper answer");
-    break;
+//#region Main Function
+
+async function Main() {
+  let answer = readline.keyInSelect(options);
+  answer++;
+  switch (answer) {
+    case 1:
+      await GetTodos();
+      break;
+    case 2:
+      await GetNotCompletedTodos();
+      break;
+    case 3:
+      await PatchTodo();
+      break;
+    case 4:
+      await PostTodo();
+      break;
+    case 5:
+      await DeleteTodo();
+      break;
+    case 0:
+      break;
+    default:
+      console.log("Select proper answer");
+      break;
+  }
+  Main();
 }
 
 //#endregion
@@ -103,14 +108,13 @@ async function DeleteTodo() {
 
 async function PatchTodo() {
   let id = readline.question("Id: ");
-  let isCompleted = readline.question("Is Completed: ");
   let response = await fetch(url + "/" + id, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      completed: (isCompleted = false),
+      completed: true,
     }),
   });
   let data = await response.json();
